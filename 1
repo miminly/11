@@ -1,0 +1,72 @@
+<?php
+
+    $server = "localhost";
+    $username = "root";
+    $password = "";
+    $db = "35-students";
+
+    $conn = mysqli_connect($server, $username, $password, $db) or die("Connection Failed.");
+
+    $sql = "SELECT * FROM students ORDER BY class_id ASC";
+    $result = $conn->query($sql);
+
+    $count = mysqli_num_rows($result);
+    $order = 1;
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://bootswatch.com/5/pulse/bootstrap.min.css" rel="stylesheet">
+    <title>35-สิรินดา</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="mt-3">
+            <div class="my-5 text-center">
+                <h3>รายชื่อนักเรียน</h3>
+            </div>
+        </div>
+    </div>
+
+    <?php if ($count > 0) {?>
+    <div class="container pb-4 px-2" id="table-result">
+        <table class="table table-bordered table-striped text-center">
+            <thead>
+                <tr>
+                    <th>ลำดับ</th>
+                    <th>เลขประจำตัว</th>
+                    <th>ชื่อ-นามสกุล</th>
+                    <th>ระดับชั้น</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php while ($row = mysqli_fetch_assoc($result)) {?>
+                <tr>
+                    <td><?php echo $order++?></td>
+                    <td><?php echo $row["s_id"]?></td>
+                    <td><?php echo $row["fname"]." ".$row["lname"]?></td>
+                    <td><?php echo $row["class"]?></td>
+                    <td><?php echo $row["email"]?></td>
+                    <td><?php echo $row["username"]?></td>
+                </tr>
+                <?php }?>
+            </tbody>
+        </table>
+    </div>
+    <?php } else { ?>
+            <div class="container">
+                <div class="alert alert-danger" role="alert"><b>ไม่พบข้อมูล</b></div>
+            </div>  
+    <?php } ?>
+    <footer class="text-center py-2 bg-light px-5">
+        <p class="mt-3">น.ส.สิรินดา อยู่เมฆ ม.6/10 เลขที่ 35</p>
+    </footer>
+</body>
+</html>
